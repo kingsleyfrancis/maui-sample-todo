@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiTodo.MainPage"
+             Title="Maui Todo"
+             x:Name="PageTodo"
+             BindingContext="{x:Reference PageTodo}">
+
+    <Grid RowDefinitions="1*, 1*, 1*, 1*, 5*"
+          MaximumWidthRequest="400"
+          Padding="20" RowSpacing="20">
+        <Label Grid.Row="0"
+               Text="Maui Todo"
+               SemanticProperties.HeadingLevel="Level1"
+               SemanticProperties.Description="Maui Todo"
+               HorizontalTextAlignment="Center"
+               FontSize="Title" />
+
+        <Entry Grid.Row="1"
+               HorizontalOptions="Center"
+               Placeholder="Enter a title"
+               SemanticProperties.Hint="Title of the new todo item"
+               WidthRequest="300"
+               x:Name="TodoTitleEntry" />
+
+        <DatePicker Grid.Row="2"
+                    WidthRequest="300"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Date the todo item is due"
+                    x:Name="DueDatepicker" />
+
+        <Button Grid.Row="3"
+                WidthRequest="100"
+                HeightRequest="50"
+                Text="Add"
+                HorizontalOptions="Center"
+                Clicked="ButtonClicked" />
+        
+
+        <CollectionView Grid.Row="4" x:Name="TodosCollection" ItemsSource="{Binding Todos}"> 
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.LeftItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem Text="Delete"
+                                           x:Name="DeleteSwipe"
+                                           Invoked="DeleteSwipe_Invoked"
+                                           IconImageSource="delete.svg"
+                                           BackgroundColor="Tomato" />
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Execute">
+                                <SwipeItem Text="Done"
+                                           x:Name="DoneSwipe"
+                                           IconImageSource="check.svg"
+                                           Invoked="DoneSwipe_Invoked"
+                                           BackgroundColor="LimeGreen" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Border Stroke="{StaticResource Primary}" 
+                            Padding="5" StrokeThickness="3" 
+                            Margin="0,10" 
+                            StrokeShape="RoundRectangle 10">
+                            <Border.Shadow>
+                                <Shadow Brush="Black"
+                                    Offset="10,10"
+                                    Radius="50"
+                                    Opacity="0.5" />
+                            </Border.Shadow>
+                            <Grid WidthRequest="350"
+                              ColumnDefinitions="2*, 5*"
+                              RowDefinitions="Auto, 50"
+                              x:Name="TodoItem">
+                                <CheckBox VerticalOptions="Center"
+                                      HorizontalOptions="Center"
+                                      Grid.Column="0"
+                                      Grid.Row="0" />
+                                <Label Text="{Binding Title}"
+                                   FontAttributes="Bold"
+                                   LineBreakMode="WordWrap"
+                                   HorizontalOptions="StartAndExpand"
+                                   FontSize="Large"
+                                   Grid.Row="0"
+                                   Grid.Column="1" />
+                                <Label Text="{Binding Due, StringFormat='{0:dd MMM yyyy}'}"
+                                   Grid.Row="1"
+                                   Grid.Column="1" />
+                            </Grid>
+                        </Border>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+
+</ContentPage>
